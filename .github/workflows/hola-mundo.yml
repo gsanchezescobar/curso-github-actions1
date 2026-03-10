@@ -1,0 +1,14 @@
+name: hola-mundo
+on: [push]
+jobs:
+	deploy:
+		runs-on: ubuntu-latest
+		steps:
+			- name: Checking out repository
+				uses: actions/checkout@v3
+      - name: Node Configuration
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+			- name: Run index
+				run: run index.js
