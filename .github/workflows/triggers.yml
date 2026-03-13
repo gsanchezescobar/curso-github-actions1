@@ -1,16 +1,19 @@
 name: triggers
 run-name: ¡Estoy aprendiendo Triggers!
+
 on:
   pull_request:
     types:
       - opened
       - labeled
     branches:
-      - 'main'
+      - main
     paths:
-      - '**.ts'
+      - '**/*.js'
+
   issue_comment:
     types: [created, deleted]
+
   workflow_dispatch:
     inputs:
       alerta:
@@ -22,15 +25,19 @@ on:
           - bajo
           - medio
           - alto
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checking out repository
         uses: actions/checkout@v3
+
       - name: Node Configuration
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: '18'
+
       - name: Run index
         run: node index.js
