@@ -1,35 +1,45 @@
-name: triggers
-run-name: ¡Estoy aprendiendo Triggers!
-
+name: Triggers
+run-name: ¡Estoy aprendiendo a usar diferentes Triggers!
 on:
-  pull_request:
-    types:
-      - opened
-      - labeled
+  push:
     branches:
-      - main
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
     paths:
-      - '**/*.js'
-
-  issue_comment:
-    types: [created, deleted]
-
+      - '**.py'
+  issues:
+    types:
+      - labeled
   workflow_dispatch:
     inputs:
-      alerta:
-        description: "Nivel"
+      lenguaje_favorito:
+        description: 'Lenguaje favorito'
+        default: Python
         required: true
-        default: medio
         type: choice
         options:
-          - bajo
-          - medio
-          - alto
-
+        - Python
+        - JavaScript
+        - Go
+      nombre:
+        description: 'Tu nombre'
+        required: true
+        default: Juan
+        type: string
+  schedule:
+    - cron:  '15 22 * * *'
 jobs:
-  deploy:
+  hola-mundo-manual:
     runs-on: ubuntu-latest
-
+    steps:
+      - name: Print inputs
+        run: |
+          echo "Nombre: ${{ inputs.nombre }}"
+          echo "Lenguaje favorito: ${{ inputs.lenguaje_favorito }}"
+  hola-mundo:
+    if: ${{ github.event_name != 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
     steps:
       - name: Checking out repository
         uses: actions/checkout@v3
