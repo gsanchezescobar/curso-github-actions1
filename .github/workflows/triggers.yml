@@ -1,0 +1,36 @@
+name: triggers
+run-name: ¡Estoy aprendiendo Triggers!
+on:
+  pull_request:
+    types:
+      - opened
+      - labeled
+    branches:
+      - 'main'
+    paths:
+      - '**.ts'
+  issue_comment:
+    types: [created, deleted]
+  workflow_dispatch:
+    inputs:
+      alerta:
+        description: "Nivel"
+        required: true
+        default: medio
+        type: choice
+        options:
+          - bajo
+          - medio
+          - alto
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checking out repository
+        uses: actions/checkout@v3
+      - name: Node Configuration
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Run index
+        run: node index.js
